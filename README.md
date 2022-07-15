@@ -34,6 +34,31 @@ Connection connection = DriverManager.getConnection("jdbc:h2:~/test");
 RunScript.execute(connection, new FileReader("enlace al sql"));
 ```
 
+## PreparedStatement
+Una vez creada la conexion con la base de datos, lo siguiente es crear un objeto preparedstatement que presenta una setencia sql precompilada, donde este objeto será utilizado para generar una sentencia SQL. 
+Si se desea agregar un parametro a la sentencia se utilizará el simbolo ? . 
+
+
+```
+PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO table_name(name, lastname, nickname) VALUES(?,?,?)");
+preparedStatement.close();
+
+Para cargar esos parametros: 
+
+preparedStatement.setString(1,"Ian");
+preparedStatement.setString(2,"Fernández");
+preparedStatement.setString(3,"iancarnivor");
+
+El set depende del tipo de dato a cargar en la columna.
+
+Para ejecutar el script:
+
+preparedStatement.executeUpdate();
+
+executeUpdate devuelve un numero, ese numero es el numero de registros insertados.
+```
+
+
 
 
 
