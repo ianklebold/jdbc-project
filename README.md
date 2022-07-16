@@ -159,13 +159,78 @@ CallableStatement cst = connection.prepareCall("callMyProcedure(?,?)");
 
 ## Transacciones
 
+Conjunto de sentencias SQL donde se ejecutan todas de una vez. Las transacciones se completan si y solo si se ejecutan todas sus sentencias con exito.
+
+Si en algun paso intermedio algo falla, entonces se retorna a un estado seguro es decir un estado anterior de los datos.
+
+Se busca que se cumpla la condicion de ACID
+
+```
+- Atomica -> Todas las transacciones se ejecutan como una sola. O se ejecutan todas las sentencias o no se ejecuta nada (No hay impacto). 
+
+- Consistencia -> Cuando todas las sentencias fueron correctas se debe ejecutar un commit, es decir guardar los datos que se han modificado y que estos guarden una correcta relación. Por ejemplo, al realizar una transaccion de dinero, se descuente el monto correspondiente de la cuenta origen y aumente la cantidad correcta en al cuenta destino.
+
+- Insolacion -> Las transacciones se ejecutan independentes entre ellas.
+
+- Durable -> Asegura que los datos deben de permanecer ante fallos. 
+```
+
+Comandos para controlar transacciones: 
+```
+- Commit -> Confirma la transaccion 
+
+- Roll back -> Descarta los cambios realizados anteriormente
+
+- Save Point -> Es un punto de control, en el cual se puede regresar al realizar un rollback, de esta forma no descartamos absolutamente todos los cambios
+
+- Set Transaction -> Asigna un nombre a la transaccion
+```
+### Commit
+
+Significa guardar los datos en la base de datos realizada una sentencia SQL
+
+```
+Por ejemplo con este comando generamos un commit a partir de JAV JDBC: 
+
+- preparedStatement.executeUpdate();
+```
+### Auto-commit
+
+Permite hacer commit de la base de datos de forma independiente. Cada vez que ejecutamos para confirmar una transaccion se genera automaticamente un commit , si queremos trabajar con transacciones esto se debe deshabilitar porque lo que buscamos es que NO se ejecuten commits cada una sentencia sino cada un cojunto de sentencias.
+
+Deshabilitamos autocommit: 
+
+```
+- connection.setAutoCommit(false);
+```
+Esto me permite controlar cuando quiero hacer un commit y mandar más de una sentencia en una transacción. A partir de esto es nuestra responsabilidad tener que controlar los commits y rollbacks. 
+
+### Rollback
+
+Ante algun fallo el rollback me permite volver a un estado seguro,es decir, todas las sentencias generadas si en alguna falla entonces con el rollback podemos hacer que no se concreten o persistan estas sentencias. 
+
+¿Como hacer commits y rollbacks manuales?
+
+```
+- connection.commit();
+- connection.rollback();
+```
+
+Es buena practica luego de generar un commit y/o rollback manual volver a un autocommit 
+
+```
+- connection.setAutoCommit(true);
+```
 
 
+### SavePoint
 
+En lugar de hacer un rollback de todos los commits, es decir deshacer todo lo que hicimos y volver a un estado anterior, podemos guardar puntos de control.
+Esto lo hacemos con el siguiente comando: 
 
-
-
-
+```
+- SavePoint savePoint = connection.setSavepoint("nameSavePoint");
+```
 
 
 
