@@ -381,7 +381,13 @@ public class PoolComparative {
 
 
 
-### Pool de conexiones de H2
+### Pool de conexiones de HikariCp
+
+Es un pool de conexiones aislado de la base de datos. Es el pool de conexiones con mayor performance. Para utilizarlo se debe aplicar su dependencia correspondiente en el POM.XML del proyecto. 
+
+
+
+
 
 
 
