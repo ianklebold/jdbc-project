@@ -24,6 +24,7 @@ public class JdbcConnections {
 
             createPersons(preparedStatement);
             giveMeAllPersons(connection);
+            giveMeAllPersonsWithExecute(connection);
 
             preparedStatement.close();
             connection.close(); //Desconectarme de la base de datos
@@ -62,5 +63,18 @@ public class JdbcConnections {
             System.out.printf("\n Id: [%d]\tName : [%s]\tLastName : [%s]\tNickName : [%s]",
             resultSet.getInt(1), resultSet.getString(2),resultSet.getString(3),resultSet.getString(4));
         }
+    }
+
+    private static void giveMeAllPersonsWithExecute( Connection connection ) throws SQLException {
+
+        PreparedStatement result = connection.prepareStatement("SELECT * FROM person WHERE lastname like 'F%'");
+        
+        if(result.execute() == true){
+            while (result.getResultSet().next()) {
+                System.out.printf("\n Id: [%d]\tName : [%s]\tLastName : [%s]\tNickName : [%s]",
+                result.getResultSet().getInt(1), result.getResultSet().getString(2),result.getResultSet().getString(3),result.getResultSet().getString(4));
+            }
+        }
+
     }
 }
