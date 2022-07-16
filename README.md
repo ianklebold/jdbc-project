@@ -58,6 +58,95 @@ preparedStatement.executeUpdate();
 executeUpdate devuelve un numero, ese numero es el numero de registros insertados.
 ```
 
+## ExecuteUpdate
+
+Se utiliza cuando se realice alguna operacion DML 'Data manipulation lenguage', como son: 
+
+```
+- INSERT
+- UPDATE
+- DELETE
+- MERGE
+- SELECT
+- etc
+```
+Devuelve un entero que representa la cantidad de registros impactados
+
+Tambien la podemos usar en operacion DDL 'Data definition lenguage', como son: 
+
+```
+- CREATE
+- ALTER
+- DROP
+- RENAME
+- TRUNCATE
+- GRANT
+- REVOKE
+- etc
+```
+Donde en estos casos este metodo devuelve 0. 
+
+
+
+## ExecuteQuery
+
+Ejecuta una consulta SQL, donde devuelve un objeto del tipo ResultSet con los valores devueltos por la query. 
+
+
+
+### ResultSet
+
+Es el objeto que contiene el resultado de una query. Tiene dos metodos principales, next y getXXX donde "XXX" es el tipo de dato
+Por ejemplo podría ser String, Int, Long, etc.
+
+Creamos la query
+```
+ResultSet resultSet = connection.prepareStatement("SELECT * FROM person").executeQuery();
+```
+
+```
+- next() : Es un puntero, devuelve falso cuando ya no hay nada, si hay algo devuelve el registro (Podemos usar los metodos get en estos)
+
+- getXXX() : Es un metodo donde get va acompañado del tipo de dato y como parametro recibe la columna a la cual hacemos referencia
+```
+
+Ejemplo
+```
+ while (resultSet.next()) {
+            System.out.println("Name: " + resultSet.getString(1) + "\n");
+            System.out.println("LastName: "+ resultSet.getString(2) + "\n");
+            System.out.println("NickName: "+ resultSet.getString(3) + "\t");
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
