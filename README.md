@@ -129,12 +129,12 @@ A su vez, un execute devuelve distintos resultados dependiendo el tipo de operac
 ```
 - Devuelve TRUE : Si se trata de una consulta, por lo que tambien devuelve un ResultSet
 
-Se puede ocupar el metodo getResultSet() para obtener los resultados de la query.
+Se puede ocupar el metodo getResultSet() de ResultStatement para obtener los resultados de la query.
 
 
 - Devuelve False : Si se trata de una manipulacion de datos o de estructura, por lo que devuelve un entero con la cantidad de registros impactados
 
-Se puede ocupar el metodo getUpdateCount() para obtener la cantidad de registros impactados
+Se puede ocupar el metodo getUpdateCount() de ResultStatement para obtener la cantidad de registros impactados
 ```
 
 
