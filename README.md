@@ -232,6 +232,65 @@ Esto lo hacemos con el siguiente comando:
 - SavePoint savePoint = connection.setSavepoint("nameSavePoint");
 ```
 
+Y el rollback que generemos puede ser total o hasta el savePoint: 
+
+```
+Rollback completo : 
+- connection.rollback();
+
+Rollback parcial : 
+- connection.rollback(savePoint);
+```
+
+Liberamos el recurso savepoint con:
+
+```
+- connection.releaseSavepoint(savePoint);
+```
+
+### JavaFaker
+
+Faker es una API que permite generar datos aleatorios para probar nuestras aplicaciones. Para ello es necesario añadir su correspondiente dependencia en el POM.XML
+
+Ejemplo : 
+```
+Faker faker = new Faker();
+        
+System.out.println(faker.name().firstName());
+System.out.println(faker.name().lastName());
+System.out.println(faker.dragonBall().character());
+```
+
+### addBatch
+
+Es una forma de tratar las transacciones, lo que permite es a partir de PreparedStatement ir creando los registros y con addBatch acumular este conjunto de operaciones. Al final cuando terminamos el proceso batch damos a executeBatch() para finalizar, nos retorna las sentencias guardadas y a su vez retorna el numero de registros guardados.
+
+Ejemplo:
+```
+    private static void createPersonsBatch(Connection connection)throws SQLException{
+        PreparedStatement preparedStatement = 
+        connection.prepareStatement("INSERT INTO person(name, lastname, nickname) VALUES(?,?,?)");
+        Faker faker = new Faker();
+        for (int i = 0; i < 100; i++) {
+            preparedStatement.setString(1,faker.name().firstName());
+            preparedStatement.setString(2,faker.name().lastName());
+            preparedStatement.setString(3,faker.funnyName().name());
+            
+            preparedStatement.addBatch(); //<- Guarda todas las sentencias
+        }
+        //Commit del proceso batch
+        int[] cantBatch = preparedStatement.executeBatch();
+        
+        System.out.println("Registros impactados por cada operación: \t");
+        
+        for (int i = 0; i < cantBatch.length; i++) 
+        System.out.printf("\nSentencia [%d] - Resultado : [%d] \t",i,cantBatch[i]);
+        preparedStatement.close();
+    }
+```
+
+
+
 
 
 
