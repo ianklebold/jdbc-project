@@ -328,19 +328,63 @@ public class DataSourceConnections {
 
 Es un conjunto de conexiones fisicas que pueden ser reutilizadas por multiples clientes. En lugar de abrir y cerrar conexiones por cada operaciones, utilizamos una sola y la reutilizamos. Al cerrar la aplicacion el pull de conexiones debe de ser cerrada. 
 
-Tendremos un lugar donde tendremos habilidatas "n" cantidades de conexiones, entonces un cliente utilizará una de estas conexiones y cuando las deje de utilizar la liberará. Cuando se inicia la aplicacion se inician todas las conexiones. 
+Tendremos un lugar donde tendremos habilitadas "n" cantidades de conexiones, entonces un cliente utilizará una de estas conexiones y cuando las deje de utilizar la liberará. Cuando se inicia la aplicacion se inician todas las conexiones. 
 
 Tendremos varios pools de conexiones, como por ejemplo: 
 
-´´´
+```
 - HikariCP
 - dbcp2
 - c3po
 
 Además cada driver de base de datos tiene su propio pool de conexiones. 
-´´´
+```
+### Comparaciónes y caracteristicas
+
+Un pool de conexiones abstrae a los clientes tener que constantemente implementar la conexion (indicar base de datos, usuario y contraseña, etc), nos permite centralizar la conexion e inidicar la cantidad de ellas minima y maxima. Nos permite con tan solo un metodo (getConnection) poder disponer de la conexión y cuando ya no la ocupo habilitarla, es perfecta cuando tenemos distintas querys ejecutandose en paralelo. 
+
+A su vez el tiempo de implementar una conexion nueva en un pool es mucho más corta a comparación de una conexión DriverManager. 
+
+```
+public class PoolComparative {
+    private static final int NUM_CONNECTIONS = 200;
+
+    /**
+     * 1   - 255ms    - 244ms
+     * 10  - 339ms    - 288ms
+     * 20  - 438ms    - 400ms
+     * 30  - 492ms    - 381ms
+     * 100 - 942ms    - 367ms
+     * 200 - 1387ms   - 362ms
+     *  
+    */
+    public static void main(String[] args) {
+
+        try {
+            JdbcConnectionPool connectionPool = JdbcConnectionPool.create("jdbc:h2:~/test", "", "");
+            long startTime = System.currentTimeMillis();
+
+            for (int i = 0; i < NUM_CONNECTIONS; i++) {
+                Connection connection = connectionPool.getConnection();
+                connection.close();
+            }
+            System.out.println("Total Time : " + (System.currentTimeMillis()-startTime) + "ms");
+
+            connectionPool.getConnection().close();
+        } catch (SQLException e) {
+            System.out.println("No fue posible la conexion, result : " + e.getMessage());
+        }
+        
+    }
+}
+```
+
+
 
 ### Pool de conexiones de H2
+
+
+
 
 
 
