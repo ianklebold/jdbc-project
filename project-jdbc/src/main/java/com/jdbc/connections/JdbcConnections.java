@@ -18,7 +18,7 @@ public class JdbcConnections {
             Connection connection = DriverManager.getConnection("jdbc:h2:~/test");
             System.out.println("Conexion creada");
 
-            RunScript.execute(connection, new FileReader("src/main/java/com/jdbc/scripts/scripts_1.sql"));
+            RunScript.execute(connection, new FileReader("/home/administrador/Facultad/Udemy/JDBC/Repository/project-jdbc/src/main/java/com/jdbc/scripts/scripts_1.sql"));
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO person(name, lastname, nickname) VALUES(?, ?, ?)");
             
 
