@@ -290,6 +290,58 @@ Ejemplo:
 ```
 
 
+## Datasources
+
+Los datasources es un objeto perteneciente a javax que permite de manera más flexible que DriverManager hacer la conexión con las bases de datos. 
+
+El dataSource será una clase que implementará la interfaz datasource, donde está clase tendrá como función la conexion a la base de datos, de tal forma que en cualquier otra clase donde necesite realizar una conexion a la base de datos, solamente tengo que preocuparme por llamar al metodo getConnection que implementará DataSource. 
+
+Lo que logramos con los datasources es centralizar la conexión a la base de datos.
+
+```
+public class DataSourceConnections {
+    
+    public static void main(String[] args) {
+        JdbcDataSource jdbcDataSource = new JdbcDataSource();
+        jdbcDataSource.setUrl("jdbc:h2:~/test");
+        /*
+         * Para este caso JdbcDataSource es solo de H2, es decir JdbcDataSource
+         * Es una implementacion de Datasource.
+         * 
+         * Si es necesario jdbcDataSource se puede darle username y password para conectarse
+         * a la base de datos.
+         */
+        try {
+            Connection connection = jdbcDataSource.getConnection();    
+            RunScript.execute(connection, new FileReader("/home/administrador/Facultad/Udemy/JDBC/Repository/project-jdbc/src/main/java/com/jdbc/scripts/scripts_1.sql"));
+            
+            connection.close();
+        } catch (SQLException | FileNotFoundException e) {
+            
+        }
+        
+    }
+}
+
+```
+## Pool de conexiones 
+
+Es un conjunto de conexiones fisicas que pueden ser reutilizadas por multiples clientes. En lugar de abrir y cerrar conexiones por cada operaciones, utilizamos una sola y la reutilizamos. Al cerrar la aplicacion el pull de conexiones debe de ser cerrada. 
+
+Tendremos un lugar donde tendremos habilidatas "n" cantidades de conexiones, entonces un cliente utilizará una de estas conexiones y cuando las deje de utilizar la liberará. Cuando se inicia la aplicacion se inician todas las conexiones. 
+
+Tendremos varios pools de conexiones, como por ejemplo: 
+
+´´´
+- HikariCP
+- dbcp2
+- c3po
+
+Además cada driver de base de datos tiene su propio pool de conexiones. 
+´´´
+
+### Pool de conexiones de H2
+
 
 
 
