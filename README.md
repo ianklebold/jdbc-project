@@ -120,7 +120,22 @@ Ejemplo
 ```
 
 
+## Execute
 
+Es una versión más generica de las dos anteriores. Se lo puede usar para manipular datos, realizar consultas, modificar, eliminar y crear estructuras como tables. 
+
+A su vez, un execute devuelve distintos resultados dependiendo el tipo de operacion realizada: 
+
+```
+- Devuelve TRUE : Si se trata de una consulta, por lo que tambien devuelve un ResultSet
+
+Se puede ocupar el metodo getResultSet() para obtener los resultados de la query.
+
+
+- Devuelve False : Si se trata de una manipulacion de datos o de estructura, por lo que devuelve un entero con la cantidad de registros impactados
+
+Se puede ocupar el metodo getUpdateCount() para obtener la cantidad de registros impactados
+```
 
 
 
