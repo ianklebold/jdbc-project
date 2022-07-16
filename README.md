@@ -135,10 +135,29 @@ Se puede ocupar el metodo getResultSet() de ResultStatement para obtener los res
 - Devuelve False : Si se trata de una manipulacion de datos o de estructura, por lo que devuelve un entero con la cantidad de registros impactados
 
 Se puede ocupar el metodo getUpdateCount() de ResultStatement para obtener la cantidad de registros impactados
+
+
+```
+## Diferencia entre Statement, PreparedStatement y CallableStatement
+
+
+### Statement
+Este objeto permite ejecutar sentencias SQL pero no permite cambiar los parametros en tiempo de ejecucion. Por ejemplo SELECT * FROM PERSON seria una consulta que no se pasan valores por parametros, podria ejecutarse con Statement. 
+
+### PreparedStatement
+PreparedStatement es una especialización de Statement, es pre-compilado, y este si permite variar el valor de los parametros en tiempo de ejecucion. Recordemos que los parametros se indican con el signo "?".
+
+### CallableStatement
+Hereda de PreparedStatement permite ejecutar procedimientos.
+
+Ejemplo : 
+
+```
+CallableStatement cst = connection.prepareCall("callMyProcedure(?,?)");
+
 ```
 
-
-
+## Transacciones
 
 
 
