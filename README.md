@@ -459,12 +459,35 @@ para los logs ocupar la dependencia slf4j :
 
 
 
+## JDBC Template
+
+Es una central de Spring JDBC que permite trabajar con él de manera más simple, alguno de sus tareas será: 
 
 
+```
+- Ejecutar consultas
+- Insertar registros
+- Administrar conexiones
+- Administrar ResultSet, etc
+```
+Incluso nisiquiera debemos preocuparnos por el Datasource, este ya es creado con las configuraciones puestas en nuestro properties. El datasoruce como anteiormente vimos sigue ciendo Hikari. 
 
+### Accediendo a JDBC Template
 
+Podemos hacerlo de dos maneras: 
 
-
+```
+- A través de @Autowired como se muestra a
+continuación:
+		@Autowired
+		private JdbcTemplate template;
+		
+- Solicitando el objeto del contexto de Spring:
+		ConfigurableApplicationContext context= SpringApplication.run(SpringJdbcExApplication.class,args);
+		JdbcTemplate template=context.getBean(JdbcTemplate.class);
+		
+Las dos formas son correctas y depende del contexto de tu aplicación cual vas a utilizar.
+```
 
 
 
