@@ -386,6 +386,82 @@ public class PoolComparative {
 Es un pool de conexiones aislado de la base de datos. Es el pool de conexiones con mayor performance. Para utilizarlo se debe aplicar su dependencia correspondiente en el POM.XML del proyecto. 
 
 
+## Spring JDBC
+
+Para utilizar en JDBC de Spring se deben importar las dependencias de JDBC API y la dependencia del driver de la base de datos que necesitemos. 
+
+Por ejemplo : 
+
+```
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
+		</dependency>
+  
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+```
+
+### ¿Que incluye starter-jdbc?
+
+Starter incluye una serie de paquetes, apis, que se utiliza en el proyecto. En este caso starter-jdbc contine: 
+```
+- spring-boot-starter
+- HikariCP
+- spring-jdbc
+```
+### Configurar Datasource
+
+En tu properties, configuralo de la siguiente forma
+
+```
+spring.datasource.url=jdbc:mysql://localhost:3306/name_database
+spring.datasource.username=username
+spring.datasource.password=password
+```
+Mysql es solo un ejemplo, debes respetar la url que indique el servidor de base de datos que vas a ocupar
+
+### ¿Que pool de conexiones utiliza Spring-boot?
+
+El pool de conexiones por default es hikariCP.
+
+¿Como podemos darnos cuenta de esto?
+
+Spring tiene un archivo principal llamado Application. Dentro ejecuta una clase Application que dá con el inicio de toda la aplicacion, nosotros podemos obtener el contexto de spring asignandola a una variable.
+
+![image](https://user-images.githubusercontent.com/56406481/179375870-9dbd1f97-5949-4760-8bee-0daf08208ad5.png)
+
+Este contexto me permite acceder a los Beans administrados por spring. 
+
+Podemos acceder a un bean de spring a partir de ejecutar el siguiente metodo: 
+
+```
+context.getBean();
+```
+Y a este meotodo le pasas por parametro el tipo de bean que queres obtener. En este caso nos intera un Datasource.
+
+![image](https://user-images.githubusercontent.com/56406481/179379416-b889604d-63aa-40da-8aa2-464bbe9ff3be.png)
+
+
+Aquí lo vemos implementa HikariDataSource: 
+
+![image](https://user-images.githubusercontent.com/56406481/179379424-03828d36-24da-4269-a5c3-051be035e99a.png)
+
+
+DATO! 
+para los logs ocupar la dependencia slf4j : 
+
+![image](https://user-images.githubusercontent.com/56406481/179379437-264ae288-24b3-4fd3-8fb7-37e1e1de2ddd.png)
+
+
+
+
+
+
+
 
 
 
