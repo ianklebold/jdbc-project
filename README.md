@@ -489,14 +489,37 @@ continuación:
 Las dos formas son correctas y depende del contexto de tu aplicación cual vas a utilizar.
 ```
 
+### Ejecucion de consultas
+
+```
+TipoDeDato variable = template.queryForObject("query SQL", tipoDeDato.class)
+```
+
+Ejemplo:
+
+```
+Double salarioMaximo = template.queryForObject(SELECT MAX(salary) FROM employees, Double.class)
+```
+
+### Modificando tablas (INSERT, DELETE, UPDATE)
 
 
+```
+template.update("insert into nombreTabla(columna1, columna2,...,columna n) values(?,?,?,..,?) ", par1, par2,...,parn);
+```
+
+Ejemplo:
+```
+template.update("insert into role(name_role) values(?) ", nameRole);
+```
+Este metodo lo que hace es una vez ejecutado, genera la creacion de registros en la tabla indicada y además devuelve al cantidad de registros que impactó es decir un integer.
+
+Este mismo metodo puede utilizarse para actualizar registros y para eliminarlos. 
 
 
+### RowMappers
 
-
-
-
+Este me permite mapear el registro de la base de datos a un objeto en JAVA. Por ejemplo traer un registro completo de los datos de un empleado y mapearlo a un objeto en java. 
 
 
 
